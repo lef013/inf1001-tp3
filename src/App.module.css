@@ -2,3 +2,9 @@
   text-align: center;
   color: darkolivegreen;
 }
+
+.no-overflow {
+  text-overflow: 'ellipsis';
+  overflow: 'hidden';
+  white-space: 'nowrap';
+}

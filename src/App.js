@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+// Import @tensorflow/tfjs-core
+import * as tf from '@tensorflow/tfjs-core';
+// Adds the WebGL backend to the global backend registry.
+import '@tensorflow/tfjs-backend-webgl';
 // https://github.com/tensorflow/tfjs-models#readme
 import * as mobilenet from '@tensorflow-models/mobilenet';
 // Bootstrap
+import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
@@ -16,9 +21,10 @@ import Spinner from './components/Spinner/Spinner';
 import styles from './App.module.css';
 
 function App() {
-  const [isModalLoading, setisModalLoading] = useState(false); // Boolean
-  const [model, setModel] = useState(null); // Object
-  const [imageURL, setImageURL] = useState(null); //
+  const [isModalLoading, setisModalLoading] = useState(false); // boolean
+  const [model, setModel] = useState(null); // object
+  const [imageURL, setImageURL] = useState(null); // string
+  const [results, setResults] = useState([]); // object
 
   const imageRef = useRef();
 
@@ -28,7 +34,7 @@ function App() {
       // Load the mobilenet Model
       const model = await mobilenet.load();
       setModel(model);
-      console.log(typeof model);
+      console.log('loadModel() - const model ', model);
       setisModalLoading(false);
     } catch (error) {
       console.log(error);
@@ -37,18 +43,28 @@ function App() {
   };
 
   const uploadImage = (event) => {
-    console.log(event);
+    // console.log(event);
     const { files } = event.target;
     if (files.length > 0) {
       const url = URL.createObjectURL(files[0]);
+      console.log('uploadImage() - const url ', url);
       setImageURL(url);
     } else {
       setImageURL(null);
     }
   };
 
+  const identify = async () => {
+    // `classify` takes an input image element and returns an array with top classes and their probabilities.
+    // `current` points to the mounted element
+    const results = await model.classify(imageRef.current);
+    console.log('identify() - const results ', results);
+    setResults(results);
+  };
+
   // @param effect — Imperative function that can return a cleanup function
   // @param deps — If present, effect will only activate if the values in the list change.
+  // Passing an empty object to deps will make it load only once
   useEffect(() => {
     loadModel();
   }, []);
@@ -56,8 +72,6 @@ function App() {
   if (isModalLoading) {
     return <Spinner />;
   }
-
-  console.log(imageURL);
 
   return (
     <React.Fragment>
@@ -74,7 +88,7 @@ function App() {
           </Form.Group>
         </Row>
         <Row>
-          <Col>
+          <Col lg={9}>
             {/* If imageURL is not null will show <Image> */}
             {imageURL && (
               <Image
@@ -87,9 +101,32 @@ function App() {
               />
             )}
           </Col>
+          <Col lg={3}>
+            {/* If imageURL is not null will show <Image> */}
+            {results.length > 0 && (
+              <React.Fragment>
+                {results.map((element, index) => {
+                  return (
+                    <Accordion flush>
+                      <Accordion.Item eventKey={index}>
+                        <Accordion.Header>
+                          {element.className} {index === 0 && `Best Guess`}
+                        </Accordion.Header>
+                        <Accordion.Body>
+                          Classname: {element.className}
+                          <br />
+                          Probability: {(element.probability * 100).toFixed(2)}%
+                        </Accordion.Body>
+                      </Accordion.Item>
+                    </Accordion>
+                  );
+                })}
+              </React.Fragment>
+            )}
+          </Col>
         </Row>
         {imageURL && (
-          <Button className="float-end" variant="success" size="lg">
+          <Button className="float-end" variant="success" size="lg" onClick={identify}>
             Identifier l'image
           </Button>
         )}
