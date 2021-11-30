@@ -1,5 +1,8 @@
+/*******************************************************************************
+ * IMPORTS
+ ******************************************************************************/
 import React, { useState, useEffect, useRef } from 'react';
-// Adds the WebGL backend to the global backend registry.
+// Backend Web Graphic Librairy for the browser
 import '@tensorflow/tfjs-backend-webgl';
 // https://github.com/tensorflow/tfjs-models#readme
 import * as mobilenet from '@tensorflow-models/mobilenet';
@@ -21,6 +24,7 @@ function App() {
   /*******************************************************************************
    * STATE
    ******************************************************************************/
+  // https://reactjs.org/docs/hooks-state.html
   const [isModalLoading, setisModalLoading] = useState(false); // boolean
   const [model, setModel] = useState(null); // object
   const [imageURL, setImageURL] = useState(null); // string
@@ -30,12 +34,14 @@ function App() {
   /*******************************************************************************
    * UI / REF
    ******************************************************************************/
+  // https://reactjs.org/docs/hooks-reference.html#useref
   const imageRef = useRef();
   const textInputUrlRef = useRef();
 
   /*******************************************************************************
    * ON MOUNT
    ******************************************************************************/
+  // https://reactjs.org/docs/hooks-effect.html
   // Passing an empty object to deps will make it load only once
   // @param effect — Imperative function that can return a cleanup function
   // @param deps — If present, effect will only activate if the values in the list change.
@@ -145,6 +151,7 @@ function App() {
             {/* If results is not null will show <ListGroup> */}
             {results.length > 0 && (
               <React.Fragment>
+                {/* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map */}
                 {results.map((element, index) => {
                   return (
                     <ListGroup as="ol" className="mb-2" key={index}>

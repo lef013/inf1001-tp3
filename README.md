@@ -5,6 +5,26 @@
 3. Installer les dépendances : `npm install`
 4. Lien de photo pour les tests : [Lorem Picsum](https://picsum.photos/images)
 
+Exemple Powershell Windows :
+
+    cd Desktop​
+
+    md tensoflow-img​
+
+    cd tensoflow-img​
+
+    git clone https://github.com/lef013/inf1001-tp3.git​
+
+    cd .\inf1001-tp3\​
+
+    npm install​
+
+    npm start​
+
+    ctl+c​
+
+    y + enter​
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
