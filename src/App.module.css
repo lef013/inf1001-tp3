@@ -1,15 +1,32 @@
+.alert {
+  margin-top: 0.5rem;
+}
+
 .title {
   text-align: center;
   color: darkolivegreen;
 }
 
-.image__col {
+.row_centerred {
+  align-items: center;
+}
+
+.image_col {
   max-height: 500px;
   margin-bottom: 0.5rem;
 }
 
 .image {
   max-height: inherit;
+}
+
+.button_photo {
+  float: right;
+  margin-bottom: 0.5rem;
+}
+
+.button_identify {
+  width: 100%;
 }
 
 .no-overflow {
