@@ -1,4 +1,11 @@
-# Getting Started with Create React App
+# Comment utiliser l'application
+
+1. Cloner dans un dossier local : `git clone https://github.com/lef013/inf1001-tp3.git`
+2. Assurez vous d'être dans le dossier ou vous avez cloner le projet
+3. Installer les dépendances : `npm install`
+4. Lien de photo pour les tests : [Lorem Picsum](https://picsum.photos/images)
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
